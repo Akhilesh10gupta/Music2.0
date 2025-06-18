@@ -14,19 +14,19 @@ export const CONTACT_INFO = [
   {
     icon: "📍",
     title: "Studio Location",
-    details: ["123 Music Row", "Nashville, TN 37203"],
+    details: ["123 Music Row", "Gorakhpur, TN 37203"],
     color: "purple",
   },
   {
     icon: "📞",
     title: "Phone & Booking",
-    details: ["+1 (615) 555‑0123", "Available 24/7"],
+    details: ["+91 (0000) 555‑0123", "Available 24/7"],
     color: "cyan",
   },
   {
     icon: "✉️",
     title: "Email",
-    details: ["hello@soundforge.studio", "info@soundforge.studio"],
+    details: ["sirmusiz@.studio", "sirmusiz@.studio"],
     color: "gold",
   },
   {

@@ -242,7 +242,7 @@ const AboutSection = () => {
           className="text-center mb-20"
         >
           <h2 className="text-5xl font-bold text-gradient mb-4">
-            About SoundForge
+            About Sir Musiz Studio
           </h2>
           <p className="text-lg text-studio-white/70 max-w-3xl mx-auto">
             Born from a passion for sound and driven by innovation, we create
@@ -274,7 +274,7 @@ const AboutSection = () => {
                   alike.
                 </p>
                 <p>
-                  Today, SoundForge blends passion, technology, and precision to
+                  Today, Sir Musiz Studio blends passion, technology, and precision to
                   make your music shine.
                 </p>
               </div>
@@ -352,7 +352,7 @@ const AboutSection = () => {
               Ready to Create Something Amazing?
             </h3>
             <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto">
-              Join the hundreds of artists who trust SoundForge. Your next
+              Join the hundreds of artists who trust Sir Musiz Studio. Your next
               masterpiece starts here.
             </p>
 

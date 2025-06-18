@@ -87,7 +87,7 @@ const Footer = () => {
 
                 {/* Awards & Certifications */}
                 <div className="flex flex-wrap gap-3">
-                  {['🏆 Grammy Studio', '⭐ 5-Star Rated', '🎵 Pro Audio'].map((badge, index) => (
+                  {['🏆 musiz Studio', '⭐ 5-Star Rated', '🎵 Pro Audio'].map((badge, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, scale: 0.8 }}
