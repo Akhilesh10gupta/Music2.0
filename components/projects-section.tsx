@@ -209,7 +209,7 @@ const ProjectsSection = () => {
               <div className="relative">
                 <div className="aspect-video bg-studio-black rounded-2xl overflow-hidden border border-studio-white/20">
                   <iframe
-                    src={`https://www.youtube.com/embed/${projects[activeProject].youtubeId}?rel=0&modestbranding=1&controls=1`}
+                    src={`https://www.youtube.com/embed/SkZWB3LDURk?rel=0&modestbranding=1`}
                     title={projects[activeProject].title}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

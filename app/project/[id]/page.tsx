@@ -181,7 +181,7 @@ const ProjectDetailPage: React.FC = () => {
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
               <div className="aspect-video bg-black rounded-xl overflow-hidden border border-white/10 mb-6">
                 <iframe
-                  src={`https://www.youtube.com/embed/${project.youtubeId}?rel=0&controls=1&modestbranding=1`}
+                  src={`https://www.youtube.com/embed/${project.youtubeId}?rel=0&controls=SkZWB3LDURk`}
                   title={project.title}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
