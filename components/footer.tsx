@@ -74,10 +74,10 @@ const Footer = () => {
                 className="mb-8"
               >
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-studio-purple to-studio-cyan flex items-center justify-center">
+                  {/* <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-studio-purple to-studio-cyan flex items-center justify-center">
                     <span className="text-2xl font-bold text-white">S</span>
-                  </div>
-                  <span className="text-3xl font-bold text-gradient">SoundForge</span>
+                  </div> */}
+                  <span className="text-3xl font-bold text-gradient">Sir Musiz Studio</span>
                 </div>
                 
                 <p className="text-studio-white/70 text-lg leading-relaxed mb-6">
@@ -102,34 +102,7 @@ const Footer = () => {
               </motion.div>
 
               {/* Newsletter Signup */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="glass-card p-6 rounded-2xl border border-studio-purple/20"
-              >
-                <h4 className="text-lg font-semibold text-gradient mb-3">
-                  Stay in the Loop
-                </h4>
-                <p className="text-studio-white/60 text-sm mb-4">
-                  Get studio updates, artist spotlights, and exclusive offers.
-                </p>
-                <div className="flex space-x-2">
-                  <input
-                    type="email"
-                    placeholder="your@email.com"
-                    className="flex-1 px-3 py-2 bg-studio-white/5 border border-studio-white/20 rounded-lg text-studio-white placeholder-studio-white/40 focus:outline-none focus:border-studio-purple text-sm"
-                  />
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-4 py-2 bg-gradient-to-r from-studio-purple to-studio-cyan rounded-lg text-white font-medium text-sm"
-                    onClick={() => console.log("Newsletter signup clicked")}
-                  >
-                    Join
-                  </motion.button>
-                </div>
-              </motion.div>
+              
             </div>
 
             {/* Links Sections */}

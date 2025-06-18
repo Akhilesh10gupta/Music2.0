@@ -1,18 +1,66 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useParams, useRouter } from 'next/navigation';
-import Navigation from '../../../components/navigation';
-import Footer from '../../../components/footer';
+import React, { memo } from "react";
+import { motion } from "framer-motion";
+import { useParams, useRouter } from "next/navigation";
+import Navigation from "../../../components/navigation";
+import Footer from "../../../components/footer";
 
-const ProjectDetailPage = () => {
-  const params = useParams();
+// -----------------------------------------------------------------------------
+// Types
+// -----------------------------------------------------------------------------
+
+interface StreamingLink {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
+interface Project {
+  title: string;
+  artist: string;
+  genre: string;
+  year: string;
+  duration: string;
+  plays: string;
+  youtubeId: string;
+  thumbnail: string;
+  color: "purple" | "cyan" | "gold";
+  description: string;
+  fullDescription: string;
+  highlights: string[];
+  credits: { role: string; name: string }[];
+  equipment: string[];
+  techniques: string[];
+  streamingLinks: StreamingLink[];
+}
+
+// -----------------------------------------------------------------------------
+// Memoized list item components
+// -----------------------------------------------------------------------------
+
+const HighlightItem = memo(({ text }: { text: string }) => (
+  <div className="px-3 py-2 bg-gradient-to-r from-studio-gold/20 to-studio-gold/10 rounded-lg border border-studio-gold/30">
+    <span className="text-studio-gold font-medium text-sm">{text}</span>
+  </div>
+));
+
+const CreditItem = memo(({ role, name }: { role: string; name: string }) => (
+  <div className="flex justify-between items-center">
+    <span className="text-studio-white/60 text-sm">{role}</span>
+    <span className="text-studio-white font-medium">{name}</span>
+  </div>
+));
+
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
+const ProjectDetailPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const projectId = params.id;
 
-  // Mock project data - in a real app, this would come from an API or database
-  const projectData: Record<string, any> = {
+  const projectData: Record<string, Project> = {
     "1": {
       title: "Luna Eclipse - Midnight Dreams",
       artist: "Luna Eclipse",
@@ -23,50 +71,62 @@ const ProjectDetailPage = () => {
       youtubeId: "dQw4w9WgXcQ",
       thumbnail: "🌙",
       color: "purple",
-      description: "A mesmerizing journey through ethereal soundscapes and haunting melodies that transport listeners to another dimension.",
-      fullDescription: "This groundbreaking electronic album represents a new frontier in ambient music production. Recorded over six months in our state-of-the-art studio, each track was meticulously crafted using a combination of analog synthesizers, field recordings, and advanced digital processing techniques. The result is a sonic journey that has captivated audiences worldwide and earned critical acclaim from industry professionals.",
-      highlights: ["Grammy Nominated", "Spotify Editorial Playlist", "International Radio Hit", "Sync in Major Film"],
+      description:
+        "A mesmerizing journey through ethereal soundscapes and haunting melodies.",
+      fullDescription:
+        "This groundbreaking electronic album represents a new frontier in ambient music production...",
+      highlights: [
+        "Grammy Nominated",
+        "Spotify Editorial Playlist",
+        "International Radio Hit",
+        "Sync in Major Film",
+      ],
       credits: [
         { role: "Artist", name: "Luna Eclipse" },
         { role: "Producer", name: "Marcus Rodriguez" },
         { role: "Mixing Engineer", name: "Sarah Chen" },
         { role: "Mastering Engineer", name: "James Thompson" },
-        { role: "Additional Programming", name: "Alex Kim" }
+        { role: "Additional Programming", name: "Alex Kim" },
       ],
       equipment: [
         "Moog Modular Synthesizer",
         "Roland Jupiter-8",
         "Neumann U87 Microphone",
         "SSL 9000J Console",
-        "Lexicon 480L Reverb"
+        "Lexicon 480L Reverb",
       ],
       techniques: [
         "Analog synthesizer layering",
         "Field recording integration",
         "Spatial audio processing",
         "Dynamic range preservation",
-        "Harmonic enhancement"
+        "Harmonic enhancement",
       ],
       streamingLinks: [
-        { platform: "Spotify", url: "#", icon: "🎵" },
+        {
+          platform: "Spotify",
+          url: "https://open.spotify.com/",
+          icon: "🎵",
+        },
         { platform: "Apple Music", url: "#", icon: "🍎" },
         { platform: "YouTube Music", url: "#", icon: "📺" },
-        { platform: "SoundCloud", url: "#", icon: "☁️" }
-      ]
-    }
-    // Add more projects here...
+        { platform: "SoundCloud", url: "#", icon: "☁️" },
+      ],
+    },
   };
 
-  const project = projectData[String(projectId)];
-  
+  const project = projectData[id];
+
   if (!project) {
     return (
       <div className="min-h-screen bg-studio-black flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🔍</div>
-          <h1 className="text-3xl font-bold text-studio-white mb-4">Project Not Found</h1>
+          <h1 className="text-3xl font-bold text-studio-white mb-4">
+            Project Not Found
+          </h1>
           <button
-            onClick={() => router.push('/projects')}
+            onClick={() => router.push("/projects")}
             className="px-6 py-3 bg-gradient-to-r from-studio-purple to-studio-cyan rounded-xl text-white font-semibold"
           >
             Back to Projects
@@ -76,35 +136,19 @@ const ProjectDetailPage = () => {
     );
   }
 
-  const getColorClasses = (color: string) => {
+  const getColorClasses = (color: Project["color"]) => {
     switch (color) {
-      case 'purple':
+      case "cyan":
         return {
-          border: 'border-studio-purple/30',
-          gradient: 'from-studio-purple/20 to-studio-purple/5',
-          shadow: 'shadow-glow-purple',
-          text: 'text-studio-purple'
+          border: "border-studio-cyan/30",
         };
-      case 'cyan':
+      case "gold":
         return {
-          border: 'border-studio-cyan/30',
-          gradient: 'from-studio-cyan/20 to-studio-cyan/5',
-          shadow: 'shadow-glow-cyan',
-          text: 'text-studio-cyan'
-        };
-      case 'gold':
-        return {
-          border: 'border-studio-gold/30',
-          gradient: 'from-studio-gold/20 to-studio-gold/5',
-          shadow: 'shadow-glow-gold',
-          text: 'text-studio-gold'
+          border: "border-studio-gold/30",
         };
       default:
         return {
-          border: 'border-studio-purple/30',
-          gradient: 'from-studio-purple/20 to-studio-purple/5',
-          shadow: 'shadow-glow-purple',
-          text: 'text-studio-purple'
+          border: "border-studio-purple/30",
         };
     }
   };
@@ -112,118 +156,74 @@ const ProjectDetailPage = () => {
   const colorClasses = getColorClasses(project.color);
 
   return (
-    <div className="min-h-screen bg-studio-black">
+    <div className="min-h-screen bg-studio-black text-white">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-studio-purple/20 via-transparent to-transparent" />
-        
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="absolute inset-0 bg-gradient-to-b from-studio-purple/10 via-transparent to-transparent pointer-events-none -z-10" />
+
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Back Button */}
           <motion.button
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             whileHover={{ x: -5 }}
-            className="flex items-center space-x-2 text-studio-white/70 hover:text-studio-white transition-colors duration-300 mb-8"
-            onClick={() => {
-              console.log("Back to projects clicked");
-              router.push('/projects');
-            }}
+            className="flex items-center space-x-2 text-studio-white/70 hover:text-studio-white mb-8"
+            onClick={() => router.push("/projects")}
           >
             <span>←</span>
             <span>Back to Projects</span>
           </motion.button>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Video Section */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="aspect-video bg-studio-black rounded-2xl overflow-hidden border border-studio-white/20 mb-6">
+            {/* YouTube Video + Streaming */}
+            <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+              <div className="aspect-video bg-black rounded-xl overflow-hidden border border-white/10 mb-6">
                 <iframe
-                  src={`https://www.youtube.com/embed/${project.youtubeId}?rel=0&modestbranding=1&controls=1`}
+                  src={`https://www.youtube.com/embed/${project.youtubeId}?rel=0&controls=1&modestbranding=1`}
                   title={project.title}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  loading="lazy"
                   className="w-full h-full"
                 />
               </div>
-              
-              {/* Streaming Links */}
+
               <div className="grid grid-cols-2 gap-3">
                 {project.streamingLinks.map((link, index) => (
-                  <motion.a
+                  <a
                     key={index}
                     href={link.url}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.05 }}
-                    className="flex items-center justify-center space-x-2 py-3 glass-card border border-studio-white/20 rounded-xl text-studio-white hover:border-studio-purple/50 transition-all duration-300"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      console.log(`Streaming link clicked: ${link.platform}`);
-                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center space-x-2 bg-white/5 py-3 px-4 rounded-xl hover:bg-white/10 transition"
                   >
-                    <span className="text-xl">{link.icon}</span>
+                    <span>{link.icon}</span>
                     <span className="font-medium">{link.platform}</span>
-                  </motion.a>
+                  </a>
                 ))}
               </div>
             </motion.div>
 
-            {/* Project Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <div className="text-6xl mb-6">{project.thumbnail}</div>
-              
-              <h1 className="text-4xl lg:text-5xl font-bold text-gradient mb-4">
-                {project.title}
-              </h1>
-              
-              <div className="flex items-center space-x-4 mb-6">
-                <span className="text-xl text-studio-cyan font-semibold">{project.artist}</span>
-                <span className="text-studio-white/60">•</span>
-                <span className="text-studio-white/60">{project.genre}</span>
-                <span className="text-studio-white/60">•</span>
-                <span className="text-studio-white/60">{project.year}</span>
+            {/* Metadata */}
+            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+              <div className="text-6xl mb-4">{project.thumbnail}</div>
+              <h1 className="text-4xl font-bold mb-2">{project.title}</h1>
+              <div className="text-studio-white/60 text-lg mb-4">
+                {project.artist} • {project.genre} • {project.year}
               </div>
-              
-              <div className="flex items-center space-x-6 mb-8 text-studio-white/60">
-                <div className="flex items-center space-x-2">
-                  <span>⏱️</span>
-                  <span>{project.duration}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span>▶️</span>
-                  <span>{project.plays} plays</span>
-                </div>
+              <div className="text-studio-white/60 mb-8">
+                ⏱ {project.duration} • ▶ {project.plays} plays
               </div>
-              
-              <p className="text-lg text-studio-white/70 leading-relaxed mb-8">
-                {project.fullDescription}
-              </p>
-              
-              {/* Highlights */}
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold text-studio-white mb-4">Achievements</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.highlights.map((highlight, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="px-3 py-2 bg-gradient-to-r from-studio-gold/20 to-studio-gold/10 rounded-lg border border-studio-gold/30"
-                    >
-                      <span className="text-studio-gold font-medium text-sm">{highlight}</span>
-                    </motion.div>
+              <p className="text-studio-white/80 mb-6 leading-relaxed">{project.fullDescription}</p>
+
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold mb-3">Highlights</h3>
+                <div className="flex flex-wrap gap-3">
+                  {project.highlights.map((highlight, i) => (
+                    <HighlightItem key={i} text={highlight} />
                   ))}
                 </div>
               </div>
@@ -232,110 +232,69 @@ const ProjectDetailPage = () => {
         </div>
       </section>
 
-      {/* Production Details */}
-      <section className="py-24 relative">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Credits */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className={`glass-card p-8 rounded-2xl border ${colorClasses.border}`}
-            >
-              <h3 className="text-xl font-bold text-gradient mb-6">Production Credits</h3>
-              <div className="space-y-4">
-                {project.credits.map((credit, index) => (
-                  <div key={index} className="flex justify-between items-center">
-                    <span className="text-studio-white/60 text-sm">{credit.role}</span>
-                    <span className="text-studio-white font-medium">{credit.name}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+      {/* Details Section */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Credits */}
+          <div className={`bg-white/5 p-6 rounded-xl ${colorClasses.border}`}>
+            <h3 className="text-xl font-bold mb-4">Production Credits</h3>
+            <div className="space-y-3">
+              {project.credits.map((c, i) => (
+                <CreditItem key={i} role={c.role} name={c.name} />
+              ))}
+            </div>
+          </div>
 
-            {/* Equipment */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className={`glass-card p-8 rounded-2xl border ${colorClasses.border}`}
-            >
-              <h3 className="text-xl font-bold text-gradient mb-6">Equipment Used</h3>
-              <div className="space-y-3">
-                {project.equipment.map((item, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-studio-purple to-studio-cyan" />
-                    <span className="text-studio-white/70 text-sm">{item}</span>
-                  </div>
-                ))}
+          {/* Equipment */}
+          <div className={`bg-white/5 p-6 rounded-xl ${colorClasses.border}`}>
+            <h3 className="text-xl font-bold mb-4">Equipment Used</h3>
+            {project.equipment.map((item, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-white/70">
+                <div className="w-2 h-2 bg-studio-cyan rounded-full" />
+                {item}
               </div>
-            </motion.div>
+            ))}
+          </div>
 
-            {/* Techniques */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className={`glass-card p-8 rounded-2xl border ${colorClasses.border}`}
-            >
-              <h3 className="text-xl font-bold text-gradient mb-6">Production Techniques</h3>
-              <div className="space-y-3">
-                {project.techniques.map((technique, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-studio-cyan to-studio-gold" />
-                    <span className="text-studio-white/70 text-sm">{technique}</span>
-                  </div>
-                ))}
+          {/* Techniques */}
+          <div className={`bg-white/5 p-6 rounded-xl ${colorClasses.border}`}>
+            <h3 className="text-xl font-bold mb-4">Techniques</h3>
+            {project.techniques.map((tech, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-white/70">
+                <div className="w-2 h-2 bg-studio-gold rounded-full" />
+                {tech}
               </div>
-            </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-24 relative">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="glass-card p-8 lg:p-12 rounded-3xl border border-studio-purple/30"
-          >
-            <h3 className="text-3xl font-bold text-gradient mb-6">
-              Ready to Create Your Masterpiece?
-            </h3>
-            <p className="text-studio-white/70 text-lg mb-8 max-w-2xl mx-auto">
-              Experience the same world-class production quality that made this track a success. 
-              Let's bring your musical vision to life.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-studio-purple to-studio-cyan rounded-2xl text-white font-bold text-lg shadow-3d hover:shadow-glow-purple transition-all duration-300"
-                onClick={() => {
-                  console.log("Book session button clicked from project page");
-                  router.push('/#contact');
-                }}
-              >
-                Book Your Session
-              </motion.button>
-              
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 glass-card border border-studio-cyan/30 rounded-2xl text-studio-white font-bold text-lg hover:bg-studio-cyan/20 transition-all duration-300"
-                onClick={() => {
-                  console.log("View all projects button clicked");
-                  router.push('/projects');
-                }}
-              >
-                View All Projects
-              </motion.button>
-            </div>
-          </motion.div>
-        </div>
+      {/* CTA */}
+      <section className="py-24 px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-3xl mx-auto bg-white/5 p-10 rounded-2xl border border-studio-purple/30"
+        >
+          <h2 className="text-3xl font-bold mb-4">Ready to Create Your Masterpiece?</h2>
+          <p className="text-white/70 mb-8 text-lg">
+            Experience the same world-class production quality. Let’s create together.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button
+              className="py-3 px-6 bg-gradient-to-r from-studio-purple to-studio-cyan rounded-xl font-semibold"
+              onClick={() => router.push("/#contact")}
+            >
+              Book Your Session
+            </button>
+            <button
+              className="py-3 px-6 border border-white/20 rounded-xl text-white/80 hover:bg-white/10"
+              onClick={() => router.push("/projects")}
+            >
+              View All Projects
+            </button>
+          </div>
+        </motion.div>
       </section>
 
       <Footer />

@@ -103,7 +103,7 @@ export default function Home() {
             <span className="text-3xl font-bold text-white">S</span>
           </div>
           <div className="text-2xl font-bold text-gradient typing-text">
-            SoundForge Studio
+            Sir Musiz Studio
           </div>
         </div>
       </div>

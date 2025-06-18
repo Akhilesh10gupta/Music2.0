@@ -10,6 +10,11 @@
   --background-end-rgb: 17, 17, 17;
 }
 
+
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
 @layer base {
   :root {
     --background: 222 84% 5%;
